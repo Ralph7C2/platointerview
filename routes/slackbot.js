@@ -22,7 +22,6 @@ router.post("/birthdayService", function(req, res, next) {
       channel: payload.event.channel
     });
   }
-  res.json({});
 });
 
 module.exports = router;
