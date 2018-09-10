@@ -4,6 +4,11 @@ const axios = require("axios");
 
 router.post("/slashbirthday", async function(req, res) {
   console.log(req.body);
+  res.sendStatus(200);
+  let result = await axios.post(
+    "https://hooks.slack.com/commands/TCQVC0XPX/432862834322/JozyKXYLktlvDF78poo1EvPb",
+    {}
+  );
 });
 
 router.post("/birthdayService", async function(req, res, next) {
@@ -14,6 +19,7 @@ router.post("/birthdayService", async function(req, res, next) {
     return res.json({ challenge: payload.challenge });
   } else if (payload.event.type === "member_joined_channel") {
     let result = await axios.post("https://slack.com/api/chat.postMessage", {
+      token: process.env.BOT_TOKEN,
       text: "Welcome <@" + payload.event.user + ">!",
       channel: payload.event.channel
     });
@@ -21,6 +27,7 @@ router.post("/birthdayService", async function(req, res, next) {
   } else if (payload.event.type == "message") {
     console.log("Message event");
     let result = await axios.post("https://slack.com/api/chat.postMessage", {
+      token: process.env.BOT_TOKEN,
       text: "Message from <@" + payload.event.user + ">",
       channel: payload.event.channel
     });
