@@ -18,26 +18,19 @@ router.post("/birthdayService", async function(req, res, next) {
   if (payload.type === "url_verification" && payload.challenge) {
     return res.json({ challenge: payload.challenge });
   } else if (payload.event.type === "member_joined_channel") {
-    let result = await axios.post(
-      " https://hooks.slack.com/services/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",
-      {
-        text: "Welcome <@" + payload.event.user + ">!",
-        channel: payload.event.channel
-      }
-    );
+    let result = await axios.post("https://slack.com/api/chat.postMessage", {
+      token: process.env.BOT_TOKEN,
+      text: "Welcome <@" + payload.event.user + ">!",
+      channel: payload.event.channel
+    });
     console.log(result.data);
   } else if (payload.event.type == "message") {
-    if (payload.env.bot_id) {
-      return;
-    }
     console.log("Message event");
-    let result = await axios.post(
-      " https://hooks.slack.com/services/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",
-      {
-        text: "Message from <@" + payload.event.user + ">",
-        channel: payload.event.channel
-      }
-    );
+    let result = await axios.post("https://slack.com/api/chat.postMessage", {
+      token: process.env.BOT_TOKEN,
+      text: "Message from <@" + payload.event.user + ">",
+      channel: payload.event.channel
+    });
     console.log(result.data);
   }
 
