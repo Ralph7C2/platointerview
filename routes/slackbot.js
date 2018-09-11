@@ -27,6 +27,9 @@ router.post("/birthdayService", async function(req, res, next) {
     );
     console.log(result.data);
   } else if (payload.event.type == "message") {
+    if (payload.env.bot_id) {
+      return;
+    }
     console.log("Message event");
     let result = await axios.post(
       " https://hooks.slack.com/services/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",
